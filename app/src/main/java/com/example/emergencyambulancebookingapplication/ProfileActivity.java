@@ -44,6 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         profileName = findViewById(R.id.profileNameId);
         profileImage = findViewById(R.id.profileImageId);
+        nextButton = findViewById(R.id.nextButtonId);
 
         fAuth = FirebaseAuth.getInstance();         // for Authentication
         fStore = FirebaseFirestore.getInstance();   // for store information
@@ -77,6 +78,14 @@ public class ProfileActivity extends AppCompatActivity {
                 // open gallery
                 Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(openGalleryIntent, 1000);
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Home_User.class));
             }
         });
 
