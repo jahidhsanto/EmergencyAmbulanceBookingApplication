@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         // Fetch Data From Firebase
-        DocumentReference documentReference = fStore.collection("users").document(userId);
+        DocumentReference documentReference = fStore.collection("users").document(userId).collection("profileInformation").document("profileInformation");
         documentReference.addSnapshotListener(ProfileActivity.this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

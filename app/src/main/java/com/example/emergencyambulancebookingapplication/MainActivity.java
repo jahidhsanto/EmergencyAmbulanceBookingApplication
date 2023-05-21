@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Check if user is signed in (non-null)
         if (fAuth.getCurrentUser() != null) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
             finish();
         }
 

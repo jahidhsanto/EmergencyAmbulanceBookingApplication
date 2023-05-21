@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -88,20 +90,23 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                             userID = fAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = fStore.collection("users").document(userID);
+                            CollectionReference collectionReference = fStore.collection("users").document(userID).collection("profileInformation");
                             // Create a new user with a first, middle, and last name
                             Map<String, Object> user = new HashMap<>();
                             user.put("fName", fullName);
                             user.put("email", email);
                             user.put("phone", phone);
+
                             // Add a new document with a generated ID
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d("TAG", "onSuccess: user Profile is created for " + userID);
-                                }
+                            collectionReference.document("profileInformation").set(user).addOnSuccessListener(aVoid -> {
+                                // Document added successfully
+                                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                                Log.d("TAG", "onSuccess: user Profile is created for " + userID);
+
+                            }).addOnFailureListener(e -> {
+                                // Error adding document
+                                Log.e("TAG", "Error adding document", e);
                             });
-                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         } else {
                             Toast.makeText(SignUpActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
