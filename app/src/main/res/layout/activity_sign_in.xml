@@ -98,15 +98,25 @@
                 android:textColor="@color/purple"
                 android:textSize="16sp" />
 
-            <ProgressBar
-                android:id="@+id/progressBarId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+            <!--            <ProgressBar-->
+            <!--                android:id="@+id/progressBarId"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:visibility="gone" />-->
+
 
         </LinearLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressBarId"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/progressbaranimation" />
 
     </androidx.cardview.widget.CardView>
 

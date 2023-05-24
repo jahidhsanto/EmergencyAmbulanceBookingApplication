@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -34,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextView mLoginBtn;
     private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
-    private ProgressBar progressBar;
+    private LottieAnimationView progressBar;
     private String userID;
 
     @Override
@@ -98,7 +100,7 @@ public class SignUpActivity extends AppCompatActivity {
                             user.put("phone", phone);
 
                             // Add a new document with a generated ID
-                            collectionReference.document("profileInformation").set(user).addOnSuccessListener(aVoid -> {
+                            collectionReference.document("profileInformation").set(user).addOnSuccessListener(documentReference -> {
                                 // Document added successfully
                                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                                 Log.d("TAG", "onSuccess: user Profile is created for " + userID);
@@ -108,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 Log.e("TAG", "Error adding document", e);
                             });
                         } else {
-                            Toast.makeText(SignUpActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Error: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
