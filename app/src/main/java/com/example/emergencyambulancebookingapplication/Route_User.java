@@ -35,7 +35,7 @@ public class Route_User extends AppCompatActivity implements View.OnClickListene
                 mLinearLayout.setVisibility(View.VISIBLE);
                 mNextButton.setVisibility(View.VISIBLE);
             }
-        }, 20000);
+        }, 5000);
 //Loading====
 
         mNextButton.setOnClickListener(this);

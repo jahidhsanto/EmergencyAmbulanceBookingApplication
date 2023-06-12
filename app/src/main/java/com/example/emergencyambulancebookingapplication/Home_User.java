@@ -311,8 +311,6 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
             CollectionReference collectionReference = fStore.collection("users").document(userID).collection("tempRideInformation");
             // Create a new user with a first, middle, and last name
             Map<String, Object> rideInfo = new HashMap<>();
-//            rideInfo.put("pickUpLatLng", getLocationName(startLocation).getFeatureName());
-//            rideInfo.put("dropOffLatLng", getLocationName(endLocation).getFeatureName());
             rideInfo.put("pickUpLatLng", startLocation);
             rideInfo.put("dropOffLatLng", endLocation);
             rideInfo.put("date", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));    // Get the current date
@@ -324,7 +322,7 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
             // Add a new document with a generated ID
             collectionReference.document("tempRideInformation").set(rideInfo).addOnSuccessListener(documentReference -> {
                 // Document added successfully
-                startActivity(new Intent(Home_User.this, Route_User.class));
+                startActivity(new Intent(Home_User.this, AmbulanceList.class));
                 Log.d("TAG", "Ride information with ID: " + userID);
             }).addOnFailureListener(e -> {
                 // Error adding document

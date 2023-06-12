@@ -2,15 +2,22 @@ package com.example.emergencyambulancebookingapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +45,9 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseFirestore fStore;
     private LottieAnimationView progressBar;
     private String userID;
+    CardView card1, card2, card3, card4, cardButtonSignUp;
+    private boolean is8char = false, hasUpper = false, hasnum = false, hasSpecialSymbol = false, isSignupClickable = false;
+    private LinearLayout passwordQuality;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,14 @@ public class SignUpActivity extends AppCompatActivity {
         mPassword02 = findViewById(R.id.pass02Id);
         mLoginBtn = findViewById(R.id.signinTxtId);
         mRegisterBtn = findViewById(R.id.signupBtnId);
+
+        card1 = (CardView) findViewById(R.id.card1);
+        card2 = (CardView) findViewById(R.id.card2);
+        card3 = (CardView) findViewById(R.id.card3);
+        card4 = (CardView) findViewById(R.id.card4);
+        passwordQuality = findViewById(R.id.passwordQualityId);
+
+        inputChanged();
 
         // Initialize Firebase Auth
         fAuth = FirebaseAuth.getInstance();
@@ -124,4 +142,102 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
     }
+
+    private void inputChanged() {
+
+        mPassword01.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @SuppressLint("ResourceType")
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordValidate();
+                if (is8char && hasnum && hasSpecialSymbol && hasUpper) {
+                    new Handler().postDelayed(() -> passwordQuality.setVisibility(View.GONE), 2000);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+//
+        });
+//
+        mPassword02.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @SuppressLint("ResourceType")
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String password1 = mPassword01.getText().toString();
+                String password2 = mPassword02.getText().toString();
+                if (password1.equals(password2)) {
+                    mRegisterBtn.setBackgroundResource(R.drawable.button_blue);
+                    mRegisterBtn.setEnabled(true);
+                } else {
+                    mRegisterBtn.setBackgroundResource(R.drawable.button_disable);
+                    mRegisterBtn.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+//
+        });
+
+    }
+
+    @SuppressLint("ResourceType")
+    private void passwordValidate() {
+        passwordQuality.setVisibility(View.VISIBLE);
+
+        String password = mPassword01.getText().toString();
+
+
+        // 8 character
+        if (password.length() >= 8) {
+            is8char = true;
+            card1.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
+        } else {
+            is8char = false;
+            card1.setCardBackgroundColor(Color.parseColor(getString(R.color.colorGrey)));
+        }
+
+        //number
+        if (password.matches("(.*[0-9].*)")) {
+            hasnum = true;
+            card2.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
+        } else {
+            hasUpper = false;
+            card2.setCardBackgroundColor(Color.parseColor(getString(R.color.colorGrey)));
+        }
+        //upper case
+        if (password.matches("(.*[A-Z].*)")) {
+            hasUpper = true;
+            card3.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
+        } else {
+            hasUpper = false;
+            card3.setCardBackgroundColor(Color.parseColor(getString(R.color.colorGrey)));
+        }
+
+        //symbol
+        if (password.matches("^(?=.*[_.()$&@]).*$")) {
+            hasSpecialSymbol = true;
+            card4.setCardBackgroundColor(Color.parseColor(getString(R.color.colorAccent)));
+        } else {
+            hasSpecialSymbol = false;
+            card4.setCardBackgroundColor(Color.parseColor(getString(R.color.colorGrey)));
+        }
+//
+    }
+
 }

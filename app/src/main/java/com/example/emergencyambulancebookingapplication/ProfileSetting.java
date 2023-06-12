@@ -33,8 +33,8 @@ public class ProfileSetting extends AppCompatActivity implements NavigationView.
     private FirebaseFirestore fStore;
     StorageReference storageReference;
 
-    private ImageView mprofileImage;
-    private TextView mprofileName, mnumberOfRide, mnumberOfTrip, mgender, mdobId;
+    private ImageView mProfileImage;
+    private TextView mProfileName, mNumberOfRide, mNumberOfTrip, mGender, mDOBId;
     private String userId;
 
     @Override
@@ -65,12 +65,12 @@ public class ProfileSetting extends AppCompatActivity implements NavigationView.
         fStore = FirebaseFirestore.getInstance();   // for store information
         storageReference = FirebaseStorage.getInstance().getReference();    // for store image
 
-        mprofileImage = findViewById(R.id.profileImageId);
-        mprofileName = findViewById(R.id.profileNameId);
-        mnumberOfRide = findViewById(R.id.numberOfRideId);
-        mnumberOfTrip = findViewById(R.id.numberOfTripId);
-        mgender = findViewById(R.id.genderId);
-        mdobId = findViewById(R.id.dobId);
+        mProfileImage = findViewById(R.id.profileImageId);
+        mProfileName = findViewById(R.id.profileNameId);
+        mNumberOfRide = findViewById(R.id.numberOfRideId);
+        mNumberOfTrip = findViewById(R.id.numberOfTripId);
+        mGender = findViewById(R.id.genderId);
+        mDOBId = findViewById(R.id.dobId);
 
         userId = fAuth.getCurrentUser().getUid();
 
@@ -87,7 +87,8 @@ public class ProfileSetting extends AppCompatActivity implements NavigationView.
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                mprofileName.setText(documentSnapshot.getString("fName"));
+                mProfileName.setText(documentSnapshot.getString("fName"));
+                mNumberOfRide.setText(documentSnapshot.getString("phone"));
             }
         });
     }
@@ -98,7 +99,7 @@ public class ProfileSetting extends AppCompatActivity implements NavigationView.
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(mprofileImage);
+                Picasso.get().load(uri).into(mProfileImage);
             }
         });
 
