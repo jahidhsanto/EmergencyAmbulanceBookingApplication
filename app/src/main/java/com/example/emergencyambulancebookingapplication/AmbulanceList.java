@@ -1,6 +1,7 @@
 package com.example.emergencyambulancebookingapplication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,12 +11,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 
@@ -25,12 +31,23 @@ public class AmbulanceList extends AppCompatActivity implements RecyclerViewInte
     ArrayList<Driver> driverArrayList;
     MyAdapter myAdapter;
     FirebaseFirestore fStore;
+    private FirebaseAuth fAuth;
+    private String userID;
+
     ProgressDialog progressDialog;
+
+    private static final String CHANNEL_ID = "my_channel";
+    private static final String CHANNEL_NAME = "My Channel";
+    private static final String CHANNEL_DESC = "Notification Channel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ambulance_list);
+
+        fAuth = FirebaseAuth.getInstance();         // for Authentication
+
+        userID = fAuth.getCurrentUser().getUid();
 
         // Initialize Cloud Firestore
         fStore = FirebaseFirestore.getInstance();
@@ -122,13 +139,30 @@ public class AmbulanceList extends AppCompatActivity implements RecyclerViewInte
     @Override
     public void onItemClick(int position) {
         Toast.makeText(this, "You Clicked: " + driverArrayList.get(position).getFullName(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "TOKEN: " + driverArrayList.get(position).getTOKEN(), Toast.LENGTH_SHORT).show();
 
         FCMSend.pushNotification(
                 AmbulanceList.this,
                 driverArrayList.get(position).getTOKEN().toString(),
-                "Ride Request",
-                "Emergency an ambulance is needed. \nTap to Accept ride"
+                "HELLO",
+                "Hello World",
+                userID
         );
+        startActivity(new Intent(this, Route_User.class));
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Delete the temporary ride request
+        CollectionReference collectionRef = fStore.collection("users").document(userID).collection("tempRideInformation");
+        collectionRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                documentSnapshot.getReference().delete();
+            }
+        }).addOnFailureListener(e -> {
+            // Handle the failure
+        });
+
+        super.onBackPressed(); // Call the superclass method to finish the activity
     }
 }

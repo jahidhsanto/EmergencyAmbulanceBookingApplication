@@ -302,6 +302,14 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
         if (v.getId() == R.id.bookAmbulanceButtonId) {
 
             // check all required filed is filledup
+            if (startLocation == null || endLocation == null ||
+                    (startLocation.latitude == 0 && startLocation.longitude == 0) ||
+                    (endLocation.latitude == 0 && endLocation.longitude == 0)) {
+                // LatLng objects are empty or have invalid coordinates
+                Toast.makeText(this, "Please select start and end locations", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (TextUtils.isEmpty(ambulanceCategory)) {
                 Toast.makeText(this, "Please select ambulance category", Toast.LENGTH_SHORT).show();
                 return;

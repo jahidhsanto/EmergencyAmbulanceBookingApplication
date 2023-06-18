@@ -21,7 +21,7 @@ public class FCMSend {
     private static String BASE_URL = "https://fcm.googleapis.com/fcm/send";
     private static String SERVER_KEY = "key=AAAA-IZzJY8:APA91bFjcoL452bG2c6tHJbdm_MBL9syVC0bhhNXkJIJP15oNRCeBTLjbKc2xHeb-JI1336-EuEVaDjjJn-ojcDIPWlFHasn0eaiZ8G0KctXeEc7UHzmo3ndseGFv10DIj4Gu2jnt-7J";
 
-    public static void pushNotification(Context context, String token, String title, String message) {
+    public static void pushNotification(Context context, String token, String title, String message, String userId) {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -35,6 +35,11 @@ public class FCMSend {
             notification.put("title", title);
             notification.put("body", message);
             json.put("notification", notification);
+
+            // Add custom data to the payload
+            JSONObject data = new JSONObject();
+            data.put("senderUId", userId);
+            json.put("data", data);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, BASE_URL, json, new Response.Listener<JSONObject>() {
                 @Override

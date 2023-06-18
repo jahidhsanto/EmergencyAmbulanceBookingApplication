@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".UserProfile"
+    tools:context=".ProfileSetting"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -129,7 +129,7 @@
 
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/hospitalName" />
+                        app:layout_constraintTop_toBottomOf="@+id/hospitalNameId" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -205,7 +205,7 @@
                         android:background="#807F87"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/hospitalName" />
+                        app:layout_constraintTop_toBottomOf="@+id/hospitalNameId" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -297,15 +297,15 @@
 
 
     <!--This is for NAV Bar-->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/lavender"
-        app:itemTextColor="@color/lavender"
-        app:menu="@menu/nav_menu" />
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/nav_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        app:headerLayout="@layout/nav_header"-->
+<!--        app:itemIconTint="@color/lavender"-->
+<!--        app:itemTextColor="@color/lavender"-->
+<!--        app:menu="@menu/nav_menu" />-->
     <!--This is for NAV Bar-->
 
 </androidx.drawerlayout.widget.DrawerLayout>
