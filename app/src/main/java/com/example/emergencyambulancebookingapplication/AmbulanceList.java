@@ -148,7 +148,6 @@ public class AmbulanceList extends AppCompatActivity implements RecyclerViewInte
                 userID
         );
         startActivity(new Intent(this, Route_User.class));
-
     }
 
     @Override

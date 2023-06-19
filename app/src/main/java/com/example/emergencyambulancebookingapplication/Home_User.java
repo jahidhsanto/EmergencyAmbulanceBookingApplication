@@ -47,6 +47,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -326,9 +327,11 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
             rideInfo.put("distance", getDistance());
             rideInfo.put("ambulanceCategory", ambulanceCategory);
             rideInfo.put("fare", getTotalfare());
+            rideInfo.put("status", "PENDING");
+            rideInfo.put("bookingId", "");      // just check the any driver booked or not.
 
             // Add a new document with a generated ID
-            collectionReference.document("tempRideInformation").set(rideInfo).addOnSuccessListener(documentReference -> {
+            collectionReference.document("tempRideInformation").set(rideInfo, SetOptions.merge()).addOnSuccessListener(documentReference -> {
                 // Document added successfully
                 startActivity(new Intent(Home_User.this, AmbulanceList.class));
                 Log.d("TAG", "Ride information with ID: " + userID);

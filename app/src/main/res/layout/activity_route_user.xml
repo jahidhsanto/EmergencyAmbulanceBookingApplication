@@ -75,10 +75,11 @@
                     android:id="@+id/hospitalNameId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="XYZ Hospital"
+                    android:text="XYZ"
                     android:textColor="#FFFFFF"
                     android:textSize="28dp"
                     android:textStyle="bold"
+                    android:visibility="invisible"
                     app:layout_constraintEnd_toEndOf="@+id/imageView2"
                     app:layout_constraintHorizontal_bias="0.497"
                     app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -88,7 +89,7 @@
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginHorizontal="60dp"
+                    android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="10dp"
                     android:background="#FFFFFF"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -111,11 +112,12 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayoutId"
-                    android:layout_width="134dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="110dp"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
                     android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/view"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/view"
@@ -158,18 +160,6 @@
                         android:textAlignment="viewStart"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/nextButtonId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:backgroundTint="#00FFFFFF"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/baseline_arrow_circle_right_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
