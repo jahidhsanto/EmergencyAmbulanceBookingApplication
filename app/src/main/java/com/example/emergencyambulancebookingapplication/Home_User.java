@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -61,7 +62,7 @@ import java.util.Map;
 
 public class Home_User extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
-    Button bookAmbulanceBtn;
+    Button bookAmbulanceBtn, buttonCall;
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private GoogleMap mMap;
     private ArraySet<LatLng> listPoints;
@@ -78,7 +79,8 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
     private AlertDialog.Builder alertDialogBuilder;
     CardView BLScard, PTScard, ALScard;
     LinearLayout BLSlinear, PTSlinear, ALSlinear;
-
+    String wrongNumber = "999";
+    int CALL_PERMISSION_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,7 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
 
         profileImage = findViewById(R.id.profileImageId);
         bookAmbulanceBtn = findViewById(R.id.bookAmbulanceButtonId);
+        buttonCall = findViewById(R.id.buttonCallId);
         mapSearchView = findViewById(R.id.mapSearchViewId);
 
         BLScard = findViewById(R.id.BLScardId);
@@ -130,6 +133,9 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
 
         // Button for book Ambulance
         bookAmbulanceBtn.setOnClickListener(this);
+
+        // Button for call
+        buttonCall.setOnClickListener(this);
 
         // Action for choosing Ambulance Category
         BLScard.setOnClickListener(this);
@@ -342,7 +348,44 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
 
 
         }
+
+
+        if (v.getId() == R.id.buttonCallId) {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + wrongNumber));
+
+            if (ActivityCompat.checkSelfPermission(Home_User.this,
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                askForCallPermission();
+                return;
+            }
+            startActivity(callIntent);
+        }
+
     }
+
+    private void askForCallPermission() {
+        ActivityCompat.requestPermissions(Home_User.this,
+                new String[]{Manifest.permission.CALL_PHONE},
+                CALL_PERMISSION_REQUEST_CODE);
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CALL_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + wrongNumber));
+                startActivity(callIntent);
+            } else {
+                Toast.makeText(Home_User.this, "You cannot call without accepting this permission.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     private float getTotalfare() {
         if (getDistance() <= 5) {
@@ -548,6 +591,14 @@ public class Home_User extends AppCompatActivity implements View.OnClickListener
         }
         if (item.getItemId() == R.id.nav_profileId) {
             startActivity(new Intent(this, ProfileSetting.class));
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        if (item.getItemId() == R.id.nav_ridehistoryId) {
+            startActivity(new Intent(this, RideHistory.class));
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        if (item.getItemId() == R.id.nav_emergencyContactsId) {
+            startActivity(new Intent(this, Calling.class));
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         if (item.getItemId() == R.id.nav_logoutId) {

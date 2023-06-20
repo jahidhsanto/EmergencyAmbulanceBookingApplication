@@ -115,6 +115,10 @@ public class ProfileSetting extends AppCompatActivity implements NavigationView.
             startActivity(new Intent(this, Home_User.class));
             drawerLayout.closeDrawer(GravityCompat.START);
         }
+        if (item.getItemId() == R.id.nav_emergencyContactsId) {
+            startActivity(new Intent(this, Calling.class));
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
         if (item.getItemId() == R.id.nav_profileId) {
             startActivity(new Intent(this, ProfileSetting.class));
             drawerLayout.closeDrawer(GravityCompat.START);

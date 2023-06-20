@@ -143,8 +143,8 @@ public class AmbulanceList extends AppCompatActivity implements RecyclerViewInte
         FCMSend.pushNotification(
                 AmbulanceList.this,
                 driverArrayList.get(position).getTOKEN().toString(),
-                "HELLO",
-                "Hello World",
+                "Emergency Ambulance Booking Application",
+                "Someone needs your help!!!",
                 userID
         );
         startActivity(new Intent(this, Route_User.class));

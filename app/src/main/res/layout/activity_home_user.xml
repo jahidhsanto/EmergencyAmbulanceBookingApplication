@@ -186,6 +186,19 @@
                 </HorizontalScrollView>
 
                 <Button
+                    android:id="@+id/buttonCallId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#ff0000"
+                    android:drawableLeft="@drawable/baseline_call_24"
+                    android:text="999"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/imageView2" />
+
+
+                <Button
                     android:id="@+id/bookAmbulanceButtonId"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -207,15 +220,15 @@
     </LinearLayout>
 
     <!--This is for NAV Bar-->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/lavender"
-        app:itemTextColor="@color/lavender"
-        app:menu="@menu/nav_menu" />
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header"
+            app:itemIconTint="@color/lavender"
+            app:itemTextColor="@color/lavender"
+            app:menu="@menu/nav_menu" />
     <!--This is for NAV Bar-->
 
 
